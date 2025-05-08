@@ -397,5 +397,10 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+[Bb]in/
+[Oo]bj/
+appsettings.json
+.idea*
+
 # JetBrains Rider
 *.sln.iml
