@@ -2,9 +2,15 @@ version: "3.8"
 
 services:
   catalogdb:
+    container_name: PostgresCatalog
     image: postgres
-
+    
+  basketdb:
+    container_name: PostgresBasket
+    image: postgres
+  
   catalog.api:
+    container_name: CatalogApi
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: Services/Catalog/Catalog.Api
@@ -12,3 +18,4 @@ services:
 
 volumes:
   postgres_catalog:
+  postgres_basket:

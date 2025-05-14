@@ -23,5 +23,4 @@ app.UseHttpsRedirection();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapCarter();
 
-
 app.Run();
