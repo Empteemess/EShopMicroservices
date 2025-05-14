@@ -4,10 +4,10 @@ public class GetProductsEndpoint : CarterModule
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async (ISender sender) =>
+        app.MapGet("/products", async (int pageNumber, int pageSize, ISender sender) =>
             {
-                var query = new GetProductQuery();
-                
+                var query = new GetProductQuery(pageNumber, pageSize);
+
                 var products = await sender.Send(query);
 
                 return Results.Ok(products);

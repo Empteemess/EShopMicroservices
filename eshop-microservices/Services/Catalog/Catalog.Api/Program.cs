@@ -1,3 +1,5 @@
+using Catalog.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
@@ -10,10 +12,16 @@ builder.Services.AddMarten(opt =>
     
 }).UseLightweightSessions();
 
-var app = builder.Build();
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
 
+var app = builder.Build();
+app.UseHttpsRedirection();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.MapCarter();
+
 
 app.Run();
