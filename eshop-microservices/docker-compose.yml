@@ -4,18 +4,18 @@ services:
   catalogdb:
     container_name: PostgresCatalog
     image: postgres
-    
+  
   basketdb:
     container_name: PostgresBasket
     image: postgres
   
   catalog.api:
     container_name: CatalogApi
-    image: ${DOCKER_REGISTRY-}catalogapi
+    image: ${DOCKER_REGISTRY-}catalogapi:${TAG:-latest}
     build:
       context: Services/Catalog/Catalog.Api
       dockerfile: Dockerfile
-
+    
 volumes:
   postgres_catalog:
   postgres_basket:

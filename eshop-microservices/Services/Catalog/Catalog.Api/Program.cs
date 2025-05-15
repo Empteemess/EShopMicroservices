@@ -12,6 +12,7 @@ builder.Services.AddMarten(opt =>
     
 }).UseLightweightSessions();
 
+
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.InitializeMartenWith<CatalogInitialData>();
