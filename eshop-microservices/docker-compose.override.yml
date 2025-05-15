@@ -21,6 +21,11 @@ services:
     volumes:
       - postgres_basket:/var/lib/postgresql/data/
   
+  rediscache:
+    restart: always
+    ports:
+      - "6379:6379"
+  
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -33,3 +38,15 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     depends_on:
       - catalogdb
+  
+  basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Redis=rediscache:6379
+    ports:
+      - "6061:8080"
+    depends_on:
+      - basketdb
+      - rediscache

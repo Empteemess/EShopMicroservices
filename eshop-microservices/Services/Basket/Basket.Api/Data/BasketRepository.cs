@@ -9,9 +9,9 @@ public class BasketRepository : IBasketRepository
         _session = session;
     }
 
-    public Task<ShoppingCart?> GetBasketAsync(string userName, CancellationToken cancellationToken)
+    public Task<ShoppingCart?> GetBasketAsync(string userName, CancellationToken ct)
     {
-        var basket = _session.LoadAsync<ShoppingCart>(userName, cancellationToken);
+        var basket = _session.LoadAsync<ShoppingCart>(userName, ct);
 
         return basket ?? throw new BasketException(userName);
     }

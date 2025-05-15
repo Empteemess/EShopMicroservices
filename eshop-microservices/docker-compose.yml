@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   catalogdb:
     container_name: PostgresCatalog
@@ -8,14 +6,25 @@ services:
   basketdb:
     container_name: PostgresBasket
     image: postgres
-  
+
+  rediscache: 
+    container_name: Redis
+    image: redis
+    
   catalog.api:
     container_name: CatalogApi
-    image: ${DOCKER_REGISTRY-}catalogapi:${TAG:-latest}
+    image: ${DOCKER_REGISTRY-}catalogapi:${TAGC:-latest}
     build:
       context: Services/Catalog/Catalog.Api
       dockerfile: Dockerfile
-    
+      
+  basket.api:
+    container_name: BasketApi
+    image:  ${DOCKER_REGISTRY-}basket.api:${TAGB:-latest}
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.Api/Dockerfile
+
 volumes:
   postgres_catalog:
-  postgres_basket:
+  postgres_basket:  

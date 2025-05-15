@@ -1,9 +1,5 @@
-using Basket.Api.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ErrorHandlingMiddleware>();
-builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 
 // Add services to the container.
 builder.Services.AddMediatR(opt =>
@@ -17,6 +13,15 @@ builder.Services.AddMarten(opt =>
     opt.Schema.For<ShoppingCart>().Identity(x => x.UserName!);
 })
 .UseLightweightSessions();
+
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<IBasketRepository,BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
 
 var app = builder.Build();
 
