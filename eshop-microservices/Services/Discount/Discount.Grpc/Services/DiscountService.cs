@@ -13,6 +13,7 @@ public class DiscountService(DiscountContext dbContext) : DiscountProtoService.D
 
         return new CouponModel
         {
+            Id = coupon.Id,
             ProductName = coupon.ProductName,
             Description = coupon.Description,
             Amount = coupon.Amount

@@ -27,7 +27,7 @@ services:
 
   discount.grpc:
     container_name: DiscountGrpc
-    image: discount.grpc:${TAGG:-latest}
+    image: discount.grpc:${TAGG:-latest} 
     build:
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
