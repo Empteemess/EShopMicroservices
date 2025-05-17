@@ -1,5 +1,6 @@
 ﻿using Discount.Grpc.Models;
 using Grpc.Core;
+using DiscountException = Discount.Grpc.Exceptions.DiscountException;
 
 namespace Discount.Grpc.Services;
 
@@ -39,14 +40,44 @@ public class DiscountService(DiscountContext dbContext) : DiscountProtoService.D
         };
     }
 
-    public override Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
+    public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
     {
-        return base.UpdateDiscount(request, context);
+        var couponId = request.Coupon.Id;
+
+        var coupon = await dbContext.Coupons.FirstOrDefaultAsync(x => x.Id == couponId);
+
+        if (coupon is null)
+            throw new DiscountException();
+
+        coupon.ProductName = request.Coupon.ProductName;
+        coupon.Description = request.Coupon.Description;
+        coupon.Amount = request.Coupon.Amount;
+
+        dbContext.Update(coupon);
+        await dbContext.SaveChangesAsync();
+
+        return new CouponModel
+        {
+            Id = coupon.Id,
+            ProductName = coupon.ProductName,
+            Description = coupon.Description,
+            Amount = coupon.Amount
+        };
     }
 
-    public override Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request,
+    public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request,
         ServerCallContext context)
     {
-        return base.DeleteDiscount(request, context);
+        var productName = request.ProductName;
+
+        var discount = await dbContext.Coupons.FirstOrDefaultAsync(x => x.ProductName == productName);
+
+        if (discount is null)
+            throw new DiscountException();
+
+        dbContext.Remove(discount);
+        await dbContext.SaveChangesAsync();
+
+        return new DeleteDiscountResponse { Success = true };
     }
 }

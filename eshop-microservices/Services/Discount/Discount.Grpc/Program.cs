@@ -1,15 +1,23 @@
+using Discount.Grpc.Exceptions;
+using Discount.Grpc.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
 
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
+
 builder.Services.AddDbContext<DiscountContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("Database")));
+
 
 var app = builder.Build();
 app.UseMigration();
 
 // Configure the HTTP request pipeline.
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapGrpcService<DiscountService>();
 app.MapGet("/",

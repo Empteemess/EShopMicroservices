@@ -49,4 +49,12 @@ services:
       - "6061:8080"
     depends_on:
       - basketdb
-      - rediscache 
+      - rediscache
+      
+  discount.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Database=Data Source=discountdb;
+    ports:
+      - "6002:8080"
