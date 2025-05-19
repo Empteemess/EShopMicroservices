@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Catalog.Api.Products.CreateProduct;
+﻿namespace Catalog.Api.Products.CreateProduct;
 
 public class CreateProductCommand : IRequest<Guid>
 {

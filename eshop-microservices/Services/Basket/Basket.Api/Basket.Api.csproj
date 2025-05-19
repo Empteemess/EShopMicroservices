@@ -15,10 +15,17 @@
 
     <ItemGroup>
       <PackageReference Include="Carter" Version="9.0.0" />
+      <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
       <PackageReference Include="Marten" Version="7.40.3" />
       <PackageReference Include="MediatR" Version="12.5.0" />
       <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.5" />
       <PackageReference Include="Scrutor" Version="6.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client">
+        <Link>Protos\discount.proto</Link>
+      </Protobuf>
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using Basket.Api.Data;
-
-namespace Basket.Api.Basket.GetBasket;
+﻿namespace Basket.Api.Basket.GetBasket;
 
 public class GetBasketQueryHandler(IBasketRepository basketRepository) : IRequestHandler<GetBasketQuery, ShoppingCart>
 {

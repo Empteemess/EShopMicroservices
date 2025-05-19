@@ -1,16 +1,15 @@
-﻿namespace Basket.Api.Basket.StoreBasket;
+﻿using Basket.Api.Models.Dtos;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Basket.Api.Basket.StoreBasket;
 
 public class StoreBasketEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/basket/{userName}", async (string userName, ISender sender) =>
+        app.MapPost("/basket", async ([FromBody] StoreBasketCommand storeBasketCommand, ISender sender) =>
         {
-            var shoppingCart = new ShoppingCart(userName);
-
-            var command = new StoreBasketCommand(shoppingCart);
-
-            var result = await sender.Send(command);
+            var result = await sender.Send(storeBasketCommand);
 
             return Results.Ok(result);
         })

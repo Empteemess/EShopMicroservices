@@ -1,3 +1,5 @@
+using Discount.Grpc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -13,6 +15,13 @@ builder.Services.AddMarten(opt =>
     opt.Schema.For<ShoppingCart>().Identity(x => x.UserName!);
 })
 .UseLightweightSessions();
+
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+{
+    opt.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();

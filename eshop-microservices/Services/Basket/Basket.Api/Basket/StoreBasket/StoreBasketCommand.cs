@@ -1,3 +1,9 @@
-﻿namespace Basket.Api.Basket.StoreBasket;
+﻿using Basket.Api.Models.Dtos;
 
-public record StoreBasketCommand(ShoppingCart ShoppingCart) : IRequest<string>;
+namespace Basket.Api.Basket.StoreBasket;
+
+public record StoreBasketCommand : IRequest<string>
+{
+    public string? UserName { get; set; }
+    public List<ShoppingCartItemDto>? Items { get; set; } = [];
+};
